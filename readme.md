@@ -1,5 +1,17 @@
+# Description
 
+Log Analysis is a report generation tool for the udacity **news** postgres db.
 
+# Getting Started
+
+## Dependencies
+
+* install python3
+* pip3 install psycopg2
+
+## Views / Functions **Required**
+
+Each of these create commands will need to be run agianst the news db _**prior**_ to running the [app.py](./app.py).
 
 ## What are the most popular three articles of all time? 
 
@@ -30,9 +42,6 @@ create view most_popular_three_articles as
         on articles.slug = article_views.slug
         order by article_views.views desc
         limit 3;
-
--- query for python.
-select title, views from most_popular_three_articles;
 ```
 
 ## Who are the most popular article authors of all time?
@@ -52,9 +61,6 @@ create view most_popular_article_authors as
         on author_to_articles.author = authors.id
         group by authors.name
         order by views desc;
-
--- query used in python.
-select name, views from most_popular_article_authors;
 ```
 
 ## On which days did more than 1% of requests lead to errors?
@@ -84,9 +90,37 @@ create view errors_greater_than_one_percent as
         on good_views.day = bad_views.day
         where ((bad_views.hits)::decimal / (good_views.hits)::decimal * 100) > 1.0
         order by error_percent desc;
-
--- query used in python.
-select day, error_percent from errors_greater_than_one_percent;
 ```
+# Usage
+
+1. Navigate to the directory [app.py](./app.py) is in.
+2. Execute python3 [app.py](./app.py).
+
+## Sample output
+
+```
+What are the most popular three articles of all time?
+
+Candidate is jerk, alleges rival --- 342102 views
+Bears love berries, alleges bear --- 256365 views
+Bad things gone, say good people --- 171762 views
+
+Who are the most popular article authors of all time?
+
+Ursula La Multa --- 512805 views
+Rudolf von Treppenwitz --- 427781 views
+Anonymous Contributor --- 171762 views
+Markoff Chaney --- 85387 views
+
+On which days did more than 1% of requests lead to errors?
+
+July      17, 2016 --- 2.26% errors
+```
+
+See [output.txt](./output.txt).
+
+# License
+Logs Analysis is released under the [MIT License](https://opensource.org/licenses/MIT).
+
 
 
